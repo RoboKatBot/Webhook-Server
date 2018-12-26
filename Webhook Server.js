@@ -48,9 +48,11 @@ server.on('request',(req,res)=>{
 		const rep = JSON.parse(body).repository;
 		switch(rep.name) {
 			case 'Discord-Selfbot':
-				exec(`cd /home/pi/bin/selfbot && git pull ${body.repository.clone_url} master`);
+				exec(`cd /home/pi/bin/selfbot && git pull ${rep.clone_url} master`);
 				break;
-
+			case 'Webhook-Server':
+				exec(`cd /home/pi/bin/Webhook-Server && git pull ${rep.clone_url} master`);
+				break;
 			default:
 				console.error(`${rep.name} not recogonized`);
 		}
