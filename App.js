@@ -38,49 +38,8 @@ function send(payload) {
 const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e300c5fd.pfx');
 var app = require('express')().use(require('body-parser').json());
 
-app.get('/', (req, res) => {
-	let VERIFY_TOKEN = "This Is A Webhook LMAO";
-	// Parse the query params
-	let mode = req.query['hub.mode'];
-	let token = req.query['hub.verify_token'];
-	let challenge = req.query['hub.challenge'];
-	if (mode && token) {
-		if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-			// Responds with the challenge token from the request
-			console.log('WEBHOOK_VERIFIED');
-			res.status(200).send(challenge);
-		} else {
-			// Responds with '403 Forbidden' if verify tokens do not match
-			res.sendStatus(403);
-			res.end('fail');
-		}
-	}
-});
 
 app.post('/', (req, res) => {
-	let body = req.body;
-	// Checks this is an event from a page subscription
-	if (body.object === 'page') {
-		// Iterates over each entry - there may be multiple if batched
-		body.entry.forEach(function(entry) {
-			// Gets the message. entry.messaging is an array, but 
-			// will only ever contain one message, so we get index 0
-			let webhook_event = entry.messaging[0];
-			console.log(webhook_event);
-		});
-
-		// Returns a '200 OK' response to all requests
-		res.status(200).send('EVENT_RECEIVED');
-	} else {
-		// Returns a '404 Not Found' if event is not from a page subscription
-		res.sendStatus(404);
-	}
-});
-
-
-
-app.all('*', (req, res) => {
-	console.log(req.url);
 	let body = req.body;
 	switch (body.repository.name) {
 		case 'Discord-Selfbot':
