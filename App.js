@@ -38,23 +38,21 @@ function send(payload) {
 const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e300c5fd.pfx');
 var app = require('express')().use(require('body-parser').json());
 
-app.get('/webhook', (req, res) => {
-	if (req.method == 'GET') {
-		let VERIFY_TOKEN = "This Is A Webhook Lmao"
-		// Parse the query params
-		let mode = req.query['hub.mode'];
-		let token = req.query['hub.verify_token'];
-		let challenge = req.query['hub.challenge'];
-		if (mode && token) {
-			if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-				// Responds with the challenge token from the request
-				console.log('WEBHOOK_VERIFIED');
-				res.status(200).send(challenge);
-			} else {
-				// Responds with '403 Forbidden' if verify tokens do not match
-				res.sendStatus(403);
-				res.end('fail');
-			}
+app.get('/', (req, res) => {
+	let VERIFY_TOKEN = "This Is A Webhook Lmao"
+	// Parse the query params
+	let mode = req.query['hub.mode'];
+	let token = req.query['hub.verify_token'];
+	let challenge = req.query['hub.challenge'];
+	if (mode && token) {
+		if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+			// Responds with the challenge token from the request
+			console.log('WEBHOOK_VERIFIED');
+			res.status(200).send(challenge);
+		} else {
+			// Responds with '403 Forbidden' if verify tokens do not match
+			res.sendStatus(403);
+			res.end('fail');
 		}
 	}
 });
