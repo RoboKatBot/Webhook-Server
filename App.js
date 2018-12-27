@@ -58,6 +58,7 @@ server.on('request', (req, res) => {
 				} else {
 					// Responds with '403 Forbidden' if verify tokens do not match
 					res.sendStatus(403);
+					res.end('fail');
 				}
 
 			}
@@ -91,6 +92,7 @@ server.on('request', (req, res) => {
 		} else {
 			// Returns a '404 Not Found' if event is not from a page subscription
 			res.sendStatus(404);
+			res.end('fail');
 		}
 
 		return;
