@@ -35,7 +35,6 @@ function send(payload) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-
 const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e300c5fd.pfx');
 var app = require('express')().use(require('body-parser').json());
 
