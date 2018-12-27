@@ -39,7 +39,7 @@ const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e
 var app = require('express')().use(require('body-parser').json());
 
 app.get('/', (req, res) => {
-	let VERIFY_TOKEN = "This Is A Webhook Lmao"
+	let VERIFY_TOKEN = "This Is A Webhook LMAO";
 	// Parse the query params
 	let mode = req.query['hub.mode'];
 	let token = req.query['hub.verify_token'];
@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
 	}
 });
 
-app.post('/webhook', (req, res) => {
+app.post('/', (req, res) => {
 	let body = req.body;
 	// Checks this is an event from a page subscription
 	if (body.object === 'page') {
@@ -81,7 +81,6 @@ app.post('/webhook', (req, res) => {
 
 app.all('*', (req, res) => {
 	console.log(req.url);
-
 	let body = req.body;
 	switch (body.repository.name) {
 		case 'Discord-Selfbot':
