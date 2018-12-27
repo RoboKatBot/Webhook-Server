@@ -36,89 +36,72 @@ function send(payload) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-const fs = require('fs');
 const pfx = require('fs').readFileSync('./mycert.pfx');
-const server = https.createServer({ pfx });
-server.on('request', (req, res) => {
-	console.log(req.url);
-	if (req.url === '/webhook') { //facebook webhook handler
-		if (req.method == 'GET') {
-			let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+var app = require('express')().use(require('body-parser').json());
+const server = https.createServer({ pfx }, app);
 
-			// Parse the query params
-			let mode = req.query['hub.mode'];
-			let token = req.query['hub.verify_token'];
-			let challenge = req.query['hub.challenge'];
-			if (mode && token) {
-				if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-
-					// Responds with the challenge token from the request
-					console.log('WEBHOOK_VERIFIED');
-					res.status(200).send(challenge);
-
-				} else {
-					// Responds with '403 Forbidden' if verify tokens do not match
-					res.sendStatus(403);
-					res.end('fail');
-				}
-
+app.get('/webhook', (req, res) => {
+	if (req.method == 'GET') {
+		let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+		// Parse the query params
+		let mode = req.query['hub.mode'];
+		let token = req.query['hub.verify_token'];
+		let challenge = req.query['hub.challenge'];
+		if (mode && token) {
+			if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+				// Responds with the challenge token from the request
+				console.log('WEBHOOK_VERIFIED');
+				res.status(200).send(challenge);
+			} else {
+				// Responds with '403 Forbidden' if verify tokens do not match
+				res.sendStatus(403);
+				res.end('fail');
 			}
-
-			return;
 		}
-
-
-
-		let body = '';
-		req.on('data', chunk => {
-			body += chunk.toString(); // convert Buffer to string
-		});
-		req.on('end', () => {
-			body = JSON.parse(body);
-		});
-
-		if (body.object === 'page') {
-
-			// Iterates over each entry - there may be multiple if batched
-			body.entry.forEach(function(entry) {
-
-				// Gets the message. entry.messaging is an array, but 
-				// will only ever contain one message, so we get index 0
-				let webhook_event = entry.messaging[0];
-				console.log(webhook_event);
-			});
-
-			// Returns a '200 OK' response to all requests
-			res.status(200).send('EVENT_RECEIVED');
-		} else {
-			// Returns a '404 Not Found' if event is not from a page subscription
-			res.sendStatus(404);
-			res.end('fail');
-		}
-
-		return;
 	}
-	let body = '';
-	req.on('data', chunk => {
-		body += chunk.toString(); // convert Buffer to string
-	});
-	req.on('end', () => {
-		const rep = JSON.parse(body).repository;
-		switch (rep.name) {
-			case 'Discord-Selfbot':
-				exec(`cd /home/pi/bin/Discord-Selfbot && git pull ${rep.clone_url} master`);
-				break;
-			case 'Webhook-Server':
-				exec(`cd /home/pi/bin/Webhook-Server && git pull ${rep.clone_url} master`);
-				break;
-			case 'Website':
-				exec(`cd /home/pi/bin/Website && git pull ${rep.clone_url} master`);
-				break;
-			default:
-				console.error(`${rep.name} not recogonized`);
-		}
-		console.log(`${rep.name} updated`);
-		res.end('ok');
-	});
-})
+});
+
+app.post('/webhook', (req, res) => {
+	let body = req.body;
+	// Checks this is an event from a page subscription
+	if (body.object === 'page') {
+		// Iterates over each entry - there may be multiple if batched
+		body.entry.forEach(function(entry) {
+			// Gets the message. entry.messaging is an array, but 
+			// will only ever contain one message, so we get index 0
+			let webhook_event = entry.messaging[0];
+			console.log(webhook_event);
+		});
+
+		// Returns a '200 OK' response to all requests
+		res.status(200).send('EVENT_RECEIVED');
+	} else {
+		// Returns a '404 Not Found' if event is not from a page subscription
+		res.sendStatus(404);
+	}
+});
+
+
+
+app.on('.*', (req, res) => {
+	console.log(req.url);
+
+	let body = req.body;
+	switch (body.repository.name) {
+		case 'Discord-Selfbot':
+			exec(`cd /home/pi/bin/Discord-Selfbot && git pull ${body.repository.clone_url} master`);
+			break;
+		case 'Webhook-Server':
+			exec(`cd /home/pi/bin/Webhook-Server && git pull ${body.repository.clone_url} master`);
+			break;
+		case 'Website':
+			exec(`cd /home/pi/bin/Website && git pull ${body.repository.clone_url} master`);
+			break;
+		default:
+			console.error(`${body.repository.name} not recogonized`);
+	}
+	console.log(`${body.repository.name} updated`);
+	res.end('ok');
+});
+
 server.listen(5555);
