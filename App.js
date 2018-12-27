@@ -19,7 +19,6 @@ feeder.on('new-item', (item) => {
 });
 
 
-
 function send(payload) {
 	https.request({
 		host: "discordapp.com",
