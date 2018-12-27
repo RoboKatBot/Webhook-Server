@@ -40,6 +40,7 @@ const fs = require('fs');
 const pfx = require('fs').readFileSync('./mycert.pfx');
 const server = https.createServer({ pfx });
 server.on('request', (req, res) => {
+	console.log(req.url);
 	if (req.url === '/webhook') { //facebook webhook handler
 		if (req.method == 'GET') {
 			let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
