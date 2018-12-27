@@ -38,7 +38,6 @@ function send(payload) {
 
 const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e300c5fd.pfx');
 var app = require('express')().use(require('body-parser').json());
-const server = https.createServer({ pfx }, app);
 
 app.get('/webhook', (req, res) => {
 	if (req.method == 'GET') {
@@ -83,7 +82,7 @@ app.post('/webhook', (req, res) => {
 
 
 
-app.on('.*', (req, res) => {
+app.all('*', (req, res) => {
 	console.log(req.url);
 
 	let body = req.body;
@@ -104,4 +103,6 @@ app.on('.*', (req, res) => {
 	res.end('ok');
 });
 
+
+const server = https.createServer({ pfx }, app);
 server.listen(5555);
