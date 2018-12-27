@@ -36,13 +36,13 @@ function send(payload) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-const pfx = require('fs').readFileSync('./mycert.pfx');
+const pfx = require('fs').readFileSync('../Website/2d64ba1c-49f6-4a79-9cfa-ddd0e300c5fd.pfx');
 var app = require('express')().use(require('body-parser').json());
 const server = https.createServer({ pfx }, app);
 
 app.get('/webhook', (req, res) => {
 	if (req.method == 'GET') {
-		let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+		let VERIFY_TOKEN = "This Is A Webhook Lmao"
 		// Parse the query params
 		let mode = req.query['hub.mode'];
 		let token = req.query['hub.verify_token'];
