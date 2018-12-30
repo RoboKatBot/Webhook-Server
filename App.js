@@ -58,8 +58,8 @@ app.post('/', (req, res) => {
 });
 
 const options = {
-	key: fs.readFileSync('/etc/letsencrypt/live/lkao.science/fullchain.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/lkao.science/privkey.pem')
+	cert: fs.readFileSync('/etc/letsencrypt/live/lkao.science/fullchain.pem'),
+	key: fs.readFileSync('/etc/letsencrypt/live/lkao.science/privkey.pem')
 };
 
 const server = https.createServer(options, app);
