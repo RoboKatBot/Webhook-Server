@@ -1,7 +1,9 @@
-let RssFeedEmitter = require('rss-feed-emitter');
-let feeder = new RssFeedEmitter();
+const RssFeedEmitter = require('rss-feed-emitter');
+const feeder = new RssFeedEmitter();
 const https = require('https');
 const { exec } = require('child_process');
+const fs = require('fs');
+const  app = require('express')().use(require('body-parser').json());
 
 feeder.add({
 	url: 'https://xkcd.com/rss.xml',
@@ -32,9 +34,8 @@ function send(payload) {
 
 
 
-///////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 
-var app = require('express')().use(require('body-parser').json());
 
 
 app.post('/', (req, res) => {
