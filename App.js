@@ -35,7 +35,7 @@ feeder.on('new-item', (item) => {
 	if (items[item.meta.link].contains(item.link)) return;
 	send({ content: item.link });
 	items[item.meta.link].push(item.link);
-	fs.writeFile(__dirname + '/items.json',JSON.stringify(items),(err)=>err&&console.error(err));
+	fs.writeFile('./items.json',JSON.stringify(items),(err)=>err&&console.error(err));
 });
 
 
