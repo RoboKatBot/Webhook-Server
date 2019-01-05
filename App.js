@@ -40,6 +40,7 @@ function send(payload) {
 
 app.post('/', (req, res) => {
 	let body = req.body;
+	if (!body) return;
 	switch (body.repository.name) {
 		case 'Discord-Selfbot':
 			exec(`cd /home/pi/bin/Discord-Selfbot && git pull ${body.repository.clone_url} master`);
