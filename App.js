@@ -68,6 +68,6 @@ server.listen(5555);
 
 
 //on startup 
-exec(`cd /home/pi/bin/Discord-Selfbot && git pull ${body.repository.clone_url} master`);
-exec(`cd /home/pi/bin/Webhook-Server && git pull ${body.repository.clone_url} master`);
-exec(`cd /home/pi/bin/Website && git pull ${body.repository.clone_url} master`);
+exec(`cd /home/pi/bin/Discord-Selfbot && git pull https://github.com/RoboKatBot/Discord-Selfbot master`);
+exec(`cd /home/pi/bin/Webhook-Server && git pull https://github.com/RoboKatBot/Webhook-Server master`);
+exec(`cd /home/pi/bin/Website && git pull https://github.com/RoboKatBot/Website master`);
