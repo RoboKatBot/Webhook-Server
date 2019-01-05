@@ -3,7 +3,23 @@ const feeder = new RssFeedEmitter();
 const https = require('https');
 const { exec } = require('child_process');
 const fs = require('fs');
-const  app = require('express')().use(require('body-parser').json());
+const app = require('express')().use(require('body-parser').json());
+
+let items;
+try {
+	items = require('./items.json');
+}
+catch (e) {
+	items = {};
+}
+
+setTimeout(()=>{
+	let now = Date.now();
+	for (domain in items) {
+		let dom = items[domain];
+		dom = dom.slice(dom.length-10);
+	}
+},86400000);
 
 feeder.add({
 	url: 'https://xkcd.com/rss.xml',
@@ -16,8 +32,10 @@ feeder.add({
 });
 
 feeder.on('new-item', (item) => {
-	if (item.date < Date.now() - 86400000) return;
+	if (items[item.meta.link].contains(item.link)) return;
 	send({ content: item.link });
+	items[item.meta.link].push(item.link);
+	fs.writeFile(__dirname + '/items.json',JSON.stringify(items),(err)=>err&&console.error(err));
 });
 
 
