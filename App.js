@@ -61,13 +61,13 @@ app.post('/', (req, res) => {
 	if (!body) return;
 	switch (body.repository.name) {
 		case 'Discord-Selfbot':
-			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
 			break;
 		case 'Webhook-Server':
-			exec(`cd /home/pi/bin/Webhook-Server && git fetch && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Webhook-Server && git fetch -all && git reset --hard origin/master`);
 			break;
 		case 'Website':
-			exec(`cd /home/pi/bin/Website && git fetch && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Website && git fetch -all && git reset --hard origin/master`);
 			break;
 		default:
 			console.error(`${body.repository.name} not recogonized`);
@@ -86,6 +86,6 @@ server.listen(5555);
 
 
 //on startup 
-exec(`cd /home/pi/bin/Discord-Selfbot && git fetch && git reset --hard origin/master`);
-exec(`cd /home/pi/bin/Webhook-Server && git fetch && git reset --hard origin/master`);
-exec(`cd /home/pi/bin/Website && git fetch && git reset --hard origin/master`);
+exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
+exec(`cd /home/pi/bin/Webhook-Server && git fetch -all && git reset --hard origin/master`);
+exec(`cd /home/pi/bin/Website && git fetch --all && git reset --hard origin/master`);
