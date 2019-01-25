@@ -63,8 +63,9 @@ app.post('/', (req, res) => {
 
 	if(fs.existsSync(`/home/pi/bin/${body.repository.name}`)) {
 		git.Repository.open(`/home/pi/bin/${body.repository.name}`).then(repo=>{
-			git.stash(repo)
-				.then(_=>git.checkout(repo))
+			git.Stash.apply(repo)
+				.then(_=>repo.fetchAll())
+				.then(_=>repo.mergeBranches("master","origin/master"))
 				.catch(console.error);
 		}).catch(console.error);
 	}
