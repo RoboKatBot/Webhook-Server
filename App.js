@@ -61,15 +61,15 @@ app.post('/', (req, res) => {
 	let body = req.body;
 	if (!body) return;
 
-	/*if(fs.existsSync(`~/bin/${body.repository.name}`)) {
+	if(fs.existsSync(`~/bin/${body.repository.name}`)) {
 		git.Repository.open(`~/bin/${body.repository.name}`).then(repo=>{
-			git.stash(repo);
-			
-		});
-	}*/
+			git.stash(repo)
+				.then(_=>git.checkout(repo));
+		}).catch(console.error);
+	}
 
 
-	switch (body.repository.name) {
+	/*switch (body.repository.name) {
 		
 		case 'Discord-Selfbot':
 			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
@@ -82,7 +82,7 @@ app.post('/', (req, res) => {
 			break;
 		default:
 			console.error(`${body.repository.name} not recogonized`);
-	}
+	}*/
 	console.log(`${body.repository.name} updated`);
 	res.end('ok');
 });
