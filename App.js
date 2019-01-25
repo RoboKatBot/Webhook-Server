@@ -62,8 +62,9 @@ app.post('/', (req, res) => {
 	if (!body) return;
 
 	/*if(fs.existsSync(`~/bin/${body.repository.name}`)) {
-		git.Repository.open(`~/bin/${body.repository.name}`).then(rep=>{
-			git.Reset.reset(rep,,git.Reset.TPYE.HARD)
+		git.Repository.open(`~/bin/${body.repository.name}`).then(repo=>{
+			git.stash(repo);
+			
 		});
 	}*/
 

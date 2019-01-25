@@ -1,0 +1,22 @@
+{
+  "name": "webhook-server",
+  "version": "1.0.0",
+  "description": "Private rss feed reader and file updater on github change",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoboKatBot/Webhook-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoboKatBot/Webhook-Server/issues"
+  },
+  "homepage": "https://github.com/RoboKatBot/Webhook-Server#readme",
+  "dependencies": {
+    "nodegit": "^0.24.0"
+  }
+}
