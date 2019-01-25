@@ -4,6 +4,7 @@ const https = require('https');
 const { exec } = require('child_process');
 const fs = require('fs');
 const app = require('express')().use(require('body-parser').json());
+const git = require('nodegit');
 
 let items;
 try {
@@ -59,7 +60,16 @@ function send(payload) {
 app.post('/', (req, res) => {
 	let body = req.body;
 	if (!body) return;
+
+	/*if(fs.existsSync(`~/bin/${body.repository.name}`)) {
+		git.Repository.open(`~/bin/${body.repository.name}`).then(rep=>{
+			git.Reset.reset(rep,,git.Reset.TPYE.HARD)
+		});
+	}*/
+
+
 	switch (body.repository.name) {
+		
 		case 'Discord-Selfbot':
 			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
 			break;
