@@ -61,10 +61,11 @@ app.post('/', (req, res) => {
 	let body = req.body;
 	if (!body) return;
 
-	if(fs.existsSync(`~/bin/${body.repository.name}`)) {
-		git.Repository.open(`~/bin/${body.repository.name}`).then(repo=>{
+	if(fs.existsSync(`/home/pi/bin/${body.repository.name}`)) {
+		git.Repository.open(`/home/pi/bin/${body.repository.name}`).then(repo=>{
 			git.stash(repo)
-				.then(_=>git.checkout(repo));
+				.then(_=>git.checkout(repo))
+				.catch(console.error);
 		}).catch(console.error);
 	}
 
@@ -100,3 +101,4 @@ server.listen(5555);
 exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
 exec(`cd /home/pi/bin/Webhook-Server && git fetch -all && git reset --hard origin/master`);
 exec(`cd /home/pi/bin/Website && git fetch --all && git reset --hard origin/master`);
+exec('git stash drop');
