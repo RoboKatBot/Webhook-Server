@@ -81,7 +81,7 @@ server.listen(5555);
 
 
 //on startup 
-exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
-exec(`cd /home/pi/bin/Webhook-Server && git fetch -all && git reset --hard origin/master`);
+exec(`cd /home/pi/bin/Discord-Selfbot && git fetch --all && git reset --hard origin/master`);
+exec(`cd /home/pi/bin/Webhook-Server && git fetch --all && git reset --hard origin/master`);
 exec(`cd /home/pi/bin/Website && git fetch --all && git reset --hard origin/master`);
 exec('git stash drop');
