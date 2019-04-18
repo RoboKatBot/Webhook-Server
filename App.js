@@ -17,6 +17,11 @@ feeder.add({
 	refresh: 2000
 });
 
+feeder.add({
+	url: "http://dresdencodak.com/feed/",
+	refresh: 2000
+});
+
 feeder.on('new-item', (item) => {
 	send({ content: item.link });
 });
