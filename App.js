@@ -11,6 +11,10 @@ feeder.add({
 	url: 'https://xkcd.com/rss.xml',
 	refresh: 2000
 });
+feeder.add({
+	url: 'http://createfeed.wprssaggregator.com/extract.php?url=https%3A%2F%2Farchiveofourown.org%2Fworks%2F11478249%2Fnavigate&in_id_or_class=&url_contains=11478249&order=reverse',
+	refresh: 2000
+});
 
 feeder.add({
 	url: "http://feeds.feedburner.com/Explosm",
@@ -60,13 +64,13 @@ app.post('/', (req, res) => {
 
 	switch (body.repository.name) {
 		case 'Discord-Selfbot':
-			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch -all && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Discord-Selfbot && git fetch --all && git reset --hard origin/master`);
 			break;
 		case 'Webhook-Server':
-			exec(`cd /home/pi/bin/Webhook-Server && git fetch -all && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Webhook-Server && git fetch --all && git reset --hard origin/master`);
 			break;
 		case 'Website':
-			exec(`cd /home/pi/bin/Website && git fetch -all && git reset --hard origin/master`);
+			exec(`cd /home/pi/bin/Website && git fetch --all && git reset --hard origin/master`);
 			break;
 		default:
 			console.error(`${body.repository.name} not recogonized`);
