@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const app = require('express')().use(require('body-parser').json());
 const git = require('nodegit');
-const config = require('config.json')
+const config = require('./config.json')
 
 
 feeder.add({
