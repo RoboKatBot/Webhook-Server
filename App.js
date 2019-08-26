@@ -5,6 +5,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const app = require('express')().use(require('body-parser').json());
 const git = require('nodegit');
+const config = require('config.json')
 
 
 feeder.add({
@@ -34,7 +35,7 @@ feeder.on('new-item', (item) => {
 function send(payload) {
 	https.request({
 		host: "discordapp.com",
-		path: "/api/webhooks/367102978403991554/Lk6DN4QksDhe4oUxOd0TWH-AYJGt7ZrUcSpgHzmQlgc57CgugSBuNts0qmFoCy1Cj2sz",
+		path: config.webhookURL,
 		method: "POST",
 		headers: {
 			"Content-Type": "multipart/form-data"
