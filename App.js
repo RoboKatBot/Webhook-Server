@@ -4,7 +4,12 @@ const https = require('https');
 const { exec } = require('child_process');
 const fs = require('fs');
 const app = require('express')().use(require('body-parser').json());
-const git = require('nodegit');
+
+const keyPath = require('os').arch() === 'x64' ? 'C:/Users/Lachlan/Documents/Certificate/' : '/etc/letsencrypt/live/lkao.hopto.org/';
+const pfx = {
+	cert: fs.readFileSync(keyPath + 'fullchain.pem'),
+	key: fs.readFileSync(keyPath + 'privkey.pem'),
+};
 
 
 feeder.add({
@@ -79,12 +84,7 @@ app.post('/', (req, res) => {
 	res.end('ok');
 });
 
-const options = {
-	cert: fs.readFileSync('/etc/letsencrypt/live/lkao.science/fullchain.pem'),
-	key: fs.readFileSync('/etc/letsencrypt/live/lkao.science/privkey.pem')
-};
-
-const server = https.createServer(options, app);
+const server = https.createServer(pfx, app);
 server.listen(5555);
 
 

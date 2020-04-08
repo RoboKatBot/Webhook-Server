@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/RoboKatBot/Webhook-Server#readme",
   "dependencies": {
+    "github-api": "^3.3.0",
     "nodegit": "^0.24.0"
   }
 }
