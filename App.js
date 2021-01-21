@@ -9,21 +9,26 @@ const config = require('./config.json')
 
 feeder.add({
 	url: 'https://xkcd.com/rss.xml',
-	refresh: 2000
+	refresh: 20000
 });
 feeder.add({
 	url: 'http://createfeed.wprssaggregator.com/extract.php?url=https%3A%2F%2Farchiveofourown.org%2Fworks%2F11478249%2Fnavigate&in_id_or_class=&url_contains=11478249&order=reverse',
-	refresh: 2000
+	refresh: 20000
 });
 
 feeder.add({
 	url: "http://feeds.feedburner.com/Explosm",
-	refresh: 2000
+	refresh: 20000
 });
 
 feeder.add({
 	url: "http://dresdencodak.com/feed/",
-	refresh: 2000
+	refresh: 20000
+});
+
+feeder.add({
+	url: "https://www.royalroad.com/fiction/syndication/25225",
+	refresh: 20000
 });
 
 feeder.on('new-item', (item) => {
